@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/img/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png" />
+<title>Free Live Class &middot; Briana Gray</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;1,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"SFD";src:url(../assets/fonts/sfpro-bold.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Inter";src:url(../assets/fonts/inter-normal.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{--ink:#fff4e6;--ink2:#fffaf6;--red:#1d1d1f;--red2:#ff9104;--deep:#1d1d1f;--cream:#1d1d1f;--mute:rgba(29,29,31,.66);--line:rgba(29,29,31,.12)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{overflow:hidden;background:#000;color:var(--cream);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+#stage{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(100vw,177.78vh);height:min(56.25vw,100vh);overflow:hidden;background:var(--ink)}
+.slide{position:absolute;inset:0;overflow:hidden;container-type:size;background:var(--ink)}
+#bar{position:fixed;left:0;top:0;height:3px;background:var(--red);width:0;transition:width .3s ease;z-index:5}
+#counter{position:fixed;right:14px;bottom:12px;z-index:5;font:12px/1 Inter,system-ui;color:var(--cream);opacity:.45;letter-spacing:.06em;font-variant-numeric:tabular-nums}
+#hint{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:5;font:12px/1 Inter;color:var(--cream);opacity:.4;transition:opacity .6s}
+
+/* type */
+h1,h2,h3{font-family:Inter,-apple-system,sans-serif;font-weight:700;margin:0;letter-spacing:-.02em;line-height:1.04}
+.h1{font-size:6.2cqw}.h2{font-size:4.6cqw}.h3{font-size:3.3cqw}
+p{margin:0}
+.sub{font-size:1.9cqw;line-height:1.4;color:var(--mute);margin-top:2.6cqh;max-width:46ch}
+.eye{font:600 1.15cqw/1 Inter;letter-spacing:.18em;text-transform:uppercase;color:var(--red2);margin-bottom:3cqh}
+.r{color:var(--red2)}
+.brand{position:absolute;left:4cqw;top:5cqh;font:700 1.5cqw/1 SFD,Inter;color:var(--red2);letter-spacing:-.01em;z-index:3}
+
+/* layouts */
+.c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8cqh 9cqw}
+.c .sub{margin-left:auto;margin-right:auto}
+.redbg{background:var(--red)} .redbg .sub{color:rgba(255,255,255,.82)} .redbg .eye{color:#fff;opacity:.8}
+.creambg{background:var(--cream);color:var(--ink)} .creambg .sub{color:rgba(14,13,13,.62)} .creambg .eye{color:var(--red)}
+.full img.bg{position:absolute;top:0;right:0;width:56%;height:100%;object-fit:cover}
+.full.rt img.bg{right:auto;left:0}
+.full::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--ink) 0%,var(--ink) 44%,rgba(14,13,13,.55) 52%,rgba(14,13,13,0) 64%)}
+.full.rt::after{background:linear-gradient(270deg,var(--ink) 0%,var(--ink) 44%,rgba(14,13,13,.55) 52%,rgba(14,13,13,0) 64%)}
+.full .tx{position:absolute;z-index:2;left:6cqw;top:50%;transform:translateY(-50%);max-width:40cqw}
+.full.rt .tx{left:auto;right:6cqw}
+.split{display:grid;grid-template-columns:1fr 1fr;height:100%}
+.split .ph{position:relative;overflow:hidden}
+.split .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 15%}
+.split .tx{display:flex;flex-direction:column;justify-content:center;padding:0 6cqw}
+.split.rev .ph{order:2}
+.ph-frame{width:100%;height:100%;object-fit:cover;object-position:50% 15%;border-radius:1.4cqw}
+.framed{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:6cqw;padding:0 7cqw}
+.framed .pic{height:72cqh;display:flex;align-items:center;justify-content:center}
+.framed .pic img{max-height:72cqh;max-width:100%;border-radius:1.2cqw;box-shadow:0 3cqh 8cqh rgba(0,0,0,.5)}
+.tilt{transform:rotate(-3deg)}
+.pol{background:#fff;padding:1.2cqw 1.2cqw 5cqh;border-radius:.4cqw;box-shadow:0 3cqh 8cqh rgba(0,0,0,.5);transform:rotate(-4deg)}
+.pol img{display:block;height:60cqh;width:auto;max-width:34cqw;object-fit:cover}
+.cluster{display:flex;gap:2cqw;justify-content:center;align-items:center;margin-top:5cqh}
+.cluster img{height:52cqh;width:auto;border-radius:1cqw;object-fit:cover;box-shadow:0 2cqh 6cqh rgba(0,0,0,.5)}
+.cluster img:nth-child(2){transform:translateY(-3cqh)}
+.cluster img:nth-child(odd){transform:rotate(-2deg)}
+
+/* nodes */
+.nodes{display:flex;align-items:flex-start;justify-content:center;gap:0;margin-top:9cqh;position:relative;width:100%}
+.node{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;padding:0 1.2cqw}
+.node .dot{width:7.4cqw;height:7.4cqw;border-radius:50%;background:var(--ink2);border:.25cqw solid var(--red);display:grid;place-items:center;font:700 2.6cqw SFD;color:var(--cream);position:relative;z-index:2}
+.node:not(:last-child)::after{content:"";position:absolute;top:3.7cqw;left:50%;width:100%;height:.25cqw;background:linear-gradient(90deg,var(--red),rgba(29,29,31,.25));z-index:1}
+.node b{display:block;font:700 1.9cqw/1.2 SFD;margin-top:3cqh}
+.node span{display:block;font-size:1.35cqw;line-height:1.4;color:var(--mute);margin-top:1.2cqh;max-width:22ch}
+.creambg .node .dot{background:#fff;color:var(--ink)} .creambg .node span{color:rgba(14,13,13,.6)}
+
+/* cards */
+.grid{display:grid;gap:1.6cqw;margin-top:7cqh;width:100%}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--ink2);border:1px solid var(--line);border-radius:1.2cqw;padding:3.4cqh 1.8cqw;text-align:left}
+.card .n{font:700 1.2cqw SFD;color:var(--red2);letter-spacing:.1em}
+.card b{display:block;font:700 1.9cqw/1.2 SFD;margin-top:1.4cqh}
+.card span{display:block;font-size:1.3cqw;line-height:1.45;color:var(--mute);margin-top:1cqh}
+.creambg .card{background:#fff;border-color:rgba(14,13,13,.08)} .creambg .card span{color:rgba(14,13,13,.6)}
+
+/* myth */
+.myth{display:grid;grid-template-columns:1fr 1fr;height:100%}
+.myth>div{display:flex;flex-direction:column;justify-content:center;padding:0 6cqw}
+.myth .m{background:var(--ink2)} .myth .m h2{color:rgba(245,239,233,.45);text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:.35cqw}
+.myth .t{background:var(--red)}
+.myth .lab{font:600 1.2cqw Inter;letter-spacing:.2em;text-transform:uppercase;margin-bottom:3cqh;opacity:.75}
+
+/* compare */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:2cqw;margin-top:6cqh;width:100%}
+.cmp .col{border-radius:1.2cqw;padding:3.6cqh 2.4cqw;text-align:left}
+.cmp .a{background:var(--ink2);border:1px solid var(--line)} .cmp .a h3{color:rgba(245,239,233,.5)}
+.cmp .b{background:var(--red)}
+.cmp ul{list-style:none;margin:2.6cqh 0 0;padding:0}
+.cmp li{font-size:1.65cqw;line-height:1.35;padding:1.5cqh 0;border-top:1px solid rgba(255,255,255,.14)}
+.cmp .a li{color:var(--mute)}
+
+/* quote */
+.q{position:absolute;inset:0;display:grid;grid-template-columns:38cqw 1fr;align-items:center}
+.q .ph{height:100%;position:relative}.q .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 15%}
+.q .tx{padding:0 7cqw}
+.q blockquote{margin:0;font:700 3.4cqw/1.18 SFD;letter-spacing:-.015em}
+.q cite{display:block;margin-top:4cqh;font:600 1.3cqw Inter;font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--red2)}
+.stars{color:var(--red2);font-size:1.8cqw;letter-spacing:.3em;margin-bottom:3cqh}
+
+/* chat prompt */
+.chat{display:inline-flex;align-items:center;gap:1.2cqw;background:#fff;color:var(--ink);border-radius:5cqw;padding:2cqh 2.4cqw 2cqh 1.4cqw;margin-top:6cqh;box-shadow:0 2cqh 6cqh rgba(0,0,0,.35)}
+.chat i{width:3.6cqw;height:3.6cqw;border-radius:50%;background:var(--red);display:grid;place-items:center;color:#fff;font:700 1.4cqw SFD;font-style:normal}
+.chat b{font:700 2.4cqw SFD}
+.caret{display:inline-block;width:.18cqw;height:2.6cqw;background:var(--red);margin-left:.4cqw;animation:blink 1s steps(1) infinite;vertical-align:middle}
+@keyframes blink{50%{opacity:0}}
+
+/* quiz */
+.quiz{display:flex;gap:2cqw;margin-top:7cqh}
+.quiz div{width:22cqw;padding:3.6cqh 0;border-radius:1.2cqw;border:.2cqw solid var(--line);font:700 2.8cqw SFD;transition:all .5s}
+.quiz .on{background:var(--red);border-color:var(--red)}
+.quiz .off{opacity:.3}
+.reveal{opacity:0;transform:translateY(2cqh);transition:all .6s;margin-top:5cqh}
+.reveal.in{opacity:1;transform:none}
+
+/* stack */
+.stack{width:100%;margin-top:5cqh;display:flex;flex-direction:column;gap:1.2cqh}
+.stack .row{display:flex;align-items:center;justify-content:space-between;background:var(--ink2);border:1px solid var(--line);border-radius:1cqw;padding:2.1cqh 2.2cqw;font:700 1.8cqw SFD;text-align:left}
+.stack .row em{font:500 1.25cqw Inter;font-style:normal;color:var(--mute)}
+.stack .row.bn{border-color:rgba(168,194,86,.6)}
+.stack .row.bn em{color:var(--red2)}
+.btn{display:inline-block;margin-top:6cqh;background:var(--red);color:#fff;font:700 2.2cqw SFD;padding:2.8cqh 4cqw;border-radius:5cqw;box-shadow:0 2cqh 6cqh rgba(29,29,31,.4)}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:4cqw;padding:1.4cqh 2cqw;font-size:1.4cqw;color:var(--mute);margin-top:3cqh}
+
+/* animations on mount */
+.a1,.a2,.a3,.a4,.a5{opacity:0;transform:translateY(2.4cqh);animation:up .7s cubic-bezier(.2,.7,.2,1) forwards}
+.a2{animation-delay:.18s}.a3{animation-delay:.36s}.a4{animation-delay:.54s}.a5{animation-delay:.72s}
+@keyframes up{to{opacity:1;transform:none}}
+.zoom img.bg{animation:kb 9s ease-out forwards}
+@keyframes kb{from{transform:scale(1.08)}to{transform:scale(1)}}
+html.reduced .a1,html.reduced .a2,html.reduced .a3,html.reduced .a4,html.reduced .a5{animation:none;opacity:1;transform:none}
+html.reduced .zoom img.bg{animation:none}
+
+/* demos */
+.meter{width:70cqw;margin-top:8cqh;position:relative}
+.meter .track{height:2.2cqh;border-radius:2cqh;background:linear-gradient(90deg,#3a3434,var(--red))}
+.meter .lbls{display:flex;justify-content:space-between;margin-top:2.4cqh;font:600 1.5cqw Inter;color:var(--mute)}
+.meter .needle{position:absolute;top:-2.4cqh;left:0;width:.5cqw;height:7cqh;background:var(--cream);border-radius:1cqw;transition:left 1.8s cubic-bezier(.3,.8,.2,1)}
+.meter .tag{position:absolute;top:-9cqh;transform:translateX(-50%);font:700 1.6cqw SFD;background:var(--cream);color:var(--ink);padding:1cqh 1.2cqw;border-radius:.6cqw;white-space:nowrap;transition:left 1.8s cubic-bezier(.3,.8,.2,1)}
+.kill{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4cqw;margin-top:6cqh;width:100%}
+.kill div{background:var(--ink2);border:1px solid var(--line);border-radius:1cqw;padding:3cqh 1.4cqw;text-align:left;opacity:.15;transition:all .45s}
+.kill div.on{opacity:1;border-color:rgba(168,194,86,.55)}
+.kill div.big{background:var(--red);border-color:var(--red)}
+.kill i{font:700 1.2cqw SFD;color:var(--red2);font-style:normal;letter-spacing:.1em}
+.kill div.big i{color:#fff}
+.kill b{display:block;font:700 1.75cqw/1.2 SFD;margin-top:1.2cqh}
+.tri{width:84cqh;height:62cqh;margin-top:4cqh;overflow:visible}
+.tri line{stroke:var(--red);stroke-width:3;stroke-dasharray:400;stroke-dashoffset:400;transition:stroke-dashoffset 1s ease}
+.tri.go line{stroke-dashoffset:0}
+.tri circle{fill:var(--ink2);stroke:var(--red);stroke-width:3}
+.tri text{fill:var(--cream);font:700 18px SFD,Inter;text-anchor:middle}
+.tri .ctr{fill:var(--red2);font-size:13px;opacity:0;transition:opacity .6s 1.2s}
+.tri.go .ctr{opacity:1}
+.thermo{width:76cqw;margin-top:9cqh;position:relative}
+.thermo .tube{height:3cqh;border-radius:3cqh;background:#2a2525;overflow:hidden}
+.thermo .fill{height:100%;width:0;background:linear-gradient(90deg,#e8cfd6,var(--red));transition:width 3.2s cubic-bezier(.4,.1,.3,1)}
+.thermo .steps{display:flex;justify-content:space-between;margin-top:3cqh}
+.thermo .steps span{font:700 1.6cqw SFD;opacity:.25;transition:opacity .4s;width:20%;text-align:center}
+.thermo .steps span.on{opacity:1}
+.big{font:700 22cqh/1 SFD;color:var(--red2);letter-spacing:-.04em}
+.pp{display:flex;gap:4cqw;align-items:center;margin-top:7cqh}
+.pp div{width:20cqw;padding:4cqh 0;border-radius:1.2cqw;font:700 2.6cqw SFD;background:var(--ink2);border:1px solid var(--line)}
+.pp .pull{animation:pull 2.4s ease-in-out infinite}
+.pp .push{animation:push 2.4s ease-in-out infinite;background:var(--red);border-color:var(--red)}
+@keyframes pull{50%{transform:translateX(3cqw)}}
+@keyframes push{50%{transform:translateX(-3cqw)}}
+html.reduced .pp div{animation:none}
+.cover{height:66cqh;border-radius:1cqw;box-shadow:0 3cqh 8cqh rgba(0,0,0,.55);transform:rotate(-4deg)}
+.shots{display:flex;gap:2.4cqw;justify-content:center;margin-top:5cqh}
+.shots img{height:58cqh;border-radius:1.2cqw;box-shadow:0 3cqh 8cqh rgba(0,0,0,.5)}
+.shots img:nth-child(1){transform:rotate(-3deg)}.shots img:nth-child(3){transform:rotate(3deg)}
+.faq .q2{font:700 4.4cqw/1.12 SFD;max-width:20ch}
+.faq .tag{font:600 1.2cqw Inter;letter-spacing:.2em;text-transform:uppercase;color:var(--red2);margin-bottom:4cqh}
+
+/* Her own colours (her YouTube thumbnails): plum, gold, white. One solid tone, plain photos, no fades or motion. */
+:root{--ink:#1d1d1f;--ink2:#4a1527;--red:#ffb04d;--red2:#ffb04d;--deep:#2a0613;--cream:#fdfdfc;--mute:rgba(255,250,243,.7);--line:rgba(255,250,243,.14)}
+body{background:#1d1d1f}
+.redbg,.myth .t,.cmp .b,.quiz .on,.btn{background:#fdfdfc;color:#1d1d1f}
+.redbg .eye{color:#c96f00;opacity:1} .redbg .sub,.myth .t .lab{color:rgba(29,29,31,.7)} .cmp .b li{border-top-color:rgba(29,29,31,.12)}
+.redbg h1 span[style]{color:#c96f00!important}
+.creambg{background:#fdfdfc;color:#1d1d1f} .creambg .sub{color:rgba(29,29,31,.7)} .creambg .eye{color:#c96f00}
+.creambg .chat{background:#1d1d1f;color:#fdfdfc} .chat{color:#1d1d1f} .chat i{background:#ffb04d;color:#1d1d1f} .caret{background:#ffb04d}
+.full::after,.full.rt::after{display:none}
+.full img.bg{width:50%;mask-image:none;-webkit-mask-image:none}
+.full .tx{max-width:38cqw}
+.split .ph{border-radius:0;box-shadow:none}
+.q .ph{border-radius:0;box-shadow:none}
+.myth .m{background:var(--ink)} .myth .m h2{color:rgba(255,250,243,.45)}
+.stack .row.bn,.kill div.on{border-color:rgba(222,192,113,.6)}
+.kill div.big{background:#ffb04d;color:#1d1d1f;font:inherit;letter-spacing:normal} .kill div.big i{color:#1d1d1f}
+.meter .track{background:linear-gradient(90deg,#6b2a3e,#ffb04d)}
+.thermo .fill{background:#ffb04d}
+.node:not(:last-child)::after{background:rgba(222,192,113,.5)}
+.btn{box-shadow:none}
+.redbg .btn{background:#1d1d1f!important;color:#fdfdfc!important}
+.framed .pic img,.cluster img,.shots img,.pol,.cover,.card,.stack .row,.kill div,.pp div,.chat{box-shadow:none}
+.tilt,.pol,.cover,.cluster img:nth-child(odd),.cluster img:nth-child(2){transform:none}
+.framed .pic img,.shots img,.cover{border-radius:.6cqw}
+.shots img{height:auto;max-height:58cqh;max-width:27cqw;object-fit:contain}
+.a1,.a2,.a3,.a4,.a5{animation:none;opacity:1;transform:none}
+.reveal{transition:none}
+.zoom img.bg{animation:none}
+.kill div,.quiz div{transition:none}
+
+:root{--ink:#fdfdfc;--ink2:#fff4e6;--red:#1d1d1f;--red2:#c96f00;--deep:#0d0d0e;--cream:#1d1d1f;--mute:rgba(29,29,31,.68);--line:rgba(29,29,31,.13)}
+body{font-family:Inter,system-ui,sans-serif}
+h1,h2,h3{font-family:Montserrat,Arial,sans-serif;font-weight:500;letter-spacing:-.015em;line-height:1.06}
+.eye,.myth .lab,.q cite,.card .n,.kill i{font-family:"IBM Plex Mono",monospace;font-weight:500}
+.brand{font:500 1.4cqw/1 Montserrat,sans-serif;color:var(--red)}
+.node .dot,.node b,.card b,.chat b,.chat i,.quiz div,.stack .row,.btn,.kill b,.big,.thermo .steps span,.meter .tag{font-family:Montserrat,Arial,sans-serif;font-weight:500}
+.full::after,.full.rt::after{display:none}
+.full .tx{max-width:38cqw}
+.full img.bg{width:50%}
+.redbg h1,.redbg h2{color:#fdfdfc}
+.creambg{background:var(--ink2);color:var(--red)} .creambg .sub{color:var(--mute)}
+.myth .m h2{color:rgba(29,29,31,.42)} .myth .t{color:#fdfdfc} .myth .t .lab{color:#fdfdfc}
+.cmp .a h3{color:rgba(29,29,31,.5)} .cmp .b{color:#fdfdfc} .cmp .b li{border-top-color:rgba(253,253,252,.2)} .cmp .a li{border-top-color:var(--line)}
+.q{background:var(--ink)!important} .q blockquote{font-family:Montserrat,sans-serif;font-weight:500;font-style:italic}
+.chat{background:#fdfdfc;border:1px solid var(--line)}
+.quiz .on{color:#fdfdfc}
+.meter .track{background:linear-gradient(90deg,#ffb04d,var(--red))}
+.meter .tag{background:var(--red);color:#fdfdfc}
+.kill div.on{border-color:#ffb04d} .kill div.big{color:#fdfdfc}
+.thermo .tube{background:#e8e1d9} .thermo .fill{background:linear-gradient(90deg,#ffb04d,var(--red))}
+.stack .row.bn{border-color:#ffb04d}
+.framed .pic img,.cluster img{box-shadow:none}
+.price{font:500 24cqh/1 Montserrat,sans-serif;color:var(--red);letter-spacing:-.03em;margin-top:3cqh}
+#stage,.slide{background:var(--ink)}
+body{background:#0d0d0e}
+#counter,#hint{color:#ffb04d}
+h1,h2,h3{font-weight:700!important;letter-spacing:-.025em}.g5{grid-template-columns:repeat(5,1fr)}.g5 .card b{font-size:1.6cqw}
+</style>
+</head>
+<body>
+<div id="stage" aria-live="polite"></div>
+<div id="bar"></div>
+<div id="counter"></div>
+<div id="hint">Click, or press → to advance</div>
+
+<script>
+const DECK = (function(){
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) document.documentElement.classList.add('reduced');
+  const stage = document.getElementById('stage');
+  const bar = document.getElementById('bar');
+  const counter = document.getElementById('counter');
+  let current = 0, SLIDES = [];
+  function show(i){
+    if (!SLIDES.length) return;
+    current = Math.max(0, Math.min(SLIDES.length - 1, i));
+    const s = SLIDES[current];
+    const el = document.createElement('section');
+    el.className = 'slide';
+    el.innerHTML = (typeof s === 'string') ? s : (s.html || '');
+    stage.replaceChildren(el);
+    if (s && typeof s.onMount === 'function') s.onMount(el, { reduced });
+    bar.style.width = (current / Math.max(1, SLIDES.length - 1) * 100) + '%';
+    counter.textContent = (current + 1) + ' / ' + SLIDES.length;
+    if (current > 0) document.getElementById('hint').style.opacity = 0;
+  }
+  const next = () => show(current + 1);
+  const prev = () => show(current - 1);
+  addEventListener('keydown', e => {
+    if (['ArrowRight',' ','Spacebar','PageDown'].includes(e.key)){ e.preventDefault(); next(); }
+    else if (['ArrowLeft','PageUp'].includes(e.key)){ e.preventDefault(); prev(); }
+    else if (e.key === 'Home'){ show(0); }
+    else if (e.key === 'End'){ show(SLIDES.length - 1); }
+  });
+  addEventListener('click', e => { (e.clientX < innerWidth * 0.33 ? prev : next)(); });
+  function load(slides){ SLIDES = slides || []; show((+new URLSearchParams(location.search).get('s')||1)-1); }
+  return { load, show, next, prev, reduced };
+})();
+
+/* ---------- slide builders (design + copy live here) ---------- */
+const I = n => `../assets/img/deck/${n}?v=1`;
+const P = new Proxy({}, {get:(t,k)=>/[\/.]/.test(k)?k:'b-'+k+'.jpg'});
+const B = `<div class="brand">Grays Vending</div>`;
+const eye = t => t ? `<div class="eye a1">${t}</div>` : '';
+const sub = t => t ? `<p class="sub a3">${t}</p>` : '';
+
+const full = (img, h, s, o={}) => `<div class="full zoom ${o.rt?'rt':''}" style="position:absolute;inset:0">
+  <img class="bg" src="${I(P[img]||img)}" alt="" style="object-position:${o.pos||'50% 15%'}">
+  <div class="tx">${eye(o.eye)}<h2 class="${o.size||'h2'} a2">${h}</h2>${sub(s)}</div></div>`;
+const split = (img, h, s, o={}) => `<div class="split ${o.rev?'rev':''}">
+  <div class="ph"><img src="${I(P[img]||img)}" alt="" style="object-position:${o.pos||'50% 15%'}"></div>
+  <div class="tx">${eye(o.eye)}<h2 class="${o.size||'h2'} a2">${h}</h2>${sub(s)}</div></div>`;
+const text = (h, s, o={}) => `<div class="c ${o.bg||''}">${B}${eye(o.eye)}<h1 class="${o.size||'h1'} a2">${h}</h1>${sub(s)}</div>`;
+const divider = (n, h, s) => `<div class="c redbg"><div class="eye a1">${n}</div><h1 class="h1 a2" style="font-size:8cqw">${h}</h1>${sub(s)}</div>`;
+const framed = (img, h, s, o={}) => `<div class="framed ${o.bg||''}" ${o.bg?'style="position:absolute;inset:0"':''}>
+  <div class="tx" style="text-align:left">${eye(o.eye)}<h2 class="h2 a2">${h}</h2>${sub(s)}</div>
+  <div class="pic a3"><img class="${o.tilt?'tilt':''}" src="${I(img)}" alt=""></div></div>`;
+const polaroid = (img, h, s, o={}) => `<div class="framed"><div class="tx" style="text-align:left">${eye(o.eye)}<h2 class="h2 a2">${h}</h2>${sub(s)}</div>
+  <div class="pic a3"><div class="pol"><img src="${I(P[img]||img)}" alt=""></div></div></div>`;
+const cluster = (imgs, h, s, o={}) => `<div class="c">${eye(o.eye)}<h2 class="h3 a2">${h}</h2>
+  <div class="cluster a3">${imgs.map(i=>`<img src="${I(P[i]||i)}" alt="">`).join('')}</div>${s?`<p class="sub a4" style="margin-top:3cqh">${s}</p>`:''}</div>`;
+const nodes = (h, items, o={}) => `<div class="c ${o.bg||''}">${eye(o.eye)}<h2 class="h2 a2">${h}</h2>
+  <div class="nodes a3">${items.map((it,i)=>`<div class="node"><div class="dot">${it[2]||i+1}</div><b>${it[0]}</b>${it[1]?`<span>${it[1]}</span>`:''}</div>`).join('')}</div></div>`;
+const cards = (h, items, cols, o={}) => `<div class="c ${o.bg||''}">${eye(o.eye)}<h2 class="h2 a2">${h}</h2>
+  <div class="grid g${cols} a3">${items.map((it,i)=>`<div class="card"><div class="n">${String(i+1).padStart(2,'0')}</div><b>${it[0]}</b>${it[1]?`<span>${it[1]}</span>`:''}</div>`).join('')}</div></div>`;
+const myth = (m, t) => `<div class="myth"><div class="m"><div class="lab">Myth</div><h2 class="h2 a1">${m}</h2></div>
+  <div class="t"><div class="lab">Truth</div><h2 class="h2 a3">${t}</h2></div></div>`;
+const compare = (h, a, al, b, bl, o={}) => `<div class="c">${eye(o.eye)}<h2 class="h2 a1">${h}</h2><div class="cmp">
+  <div class="col a a2"><h3 class="h3">${a}</h3><ul>${al.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+  <div class="col b a4"><h3 class="h3">${b}</h3><ul>${bl.map(x=>`<li>${x}</li>`).join('')}</ul></div></div></div>`;
+const quote = (img, q, who, o={}) => `<div class="q ${o.bg||''}" style="${o.bg?'':'background:var(--ink)'}">
+  <div class="ph"><img src="${I(P[img]||img)}" alt=""></div>
+  <div class="tx"><blockquote class="a2">${q}</blockquote><cite class="a3">${who}</cite></div></div>`;
+const yes = (h, word='YES', o={}) => `<div class="c ${o.bg||'redbg'}">${eye(o.eye||'Type in the chat')}<h2 class="h2 a2" style="max-width:22ch">${h}</h2>
+  <div class="chat a4"><i>S</i><b>${word}</b><span class="caret"></span></div></div>`;
+const faq = q => `<div class="c faq creambg" style="position:absolute;inset:0">${B}<div class="tag a1">Questions I get asked</div><div class="q2 a2">${q}</div></div>`;
+
+
+/* demos */
+const meter = (h, s, at, label) => ({ html:`<div class="c">${eye('Where most beginners get stuck')}<h2 class="h2 a1">${h}</h2>
+  <div class="meter a2"><div class="tag" style="left:0">${label}</div><div class="needle" style="left:0"></div><div class="track"></div>
+  <div class="lbls"><span>Still researching</span><span>Machine placed and earning</span></div></div>${sub(s)}</div>`,
+  onMount(el,{reduced}){ const n=el.querySelector('.needle'),t=el.querySelector('.tag');
+    const go=()=>{n.style.left=at+'%';t.style.left=at+'%'}; reduced?go():setTimeout(go,350);} });
+const killers = (focus) => ({ html:`<div class="c">${eye('7 mistakes that keep beginners stuck')}<h2 class="h2 a1">${focus?'The most expensive one is buying the machine first.':'Most beginners make at least three of these.'}</h2>
+  <div class="kill">${['Buying a machine before you have a location','Picking a spot because it looks busy','Paying commission you never needed to pay','Pitching strangers first','Paying full price up front','Waiting until you feel 100% ready','Researching for months instead of applying','']
+   .map((k,i)=>k?`<div data-i="${i}"><i>${String(i+1).padStart(2,'0')}</i><b>${k}</b></div>`:'<div style="visibility:hidden"></div>').join('')}</div></div>`,
+  onMount(el,{reduced}){ const ds=[...el.querySelectorAll('.kill div[data-i]')];
+    if(focus){ds.forEach(d=>{d.classList.add('on'); if(d.dataset.i==='0') d.classList.add('big'); else d.style.opacity=.25}); return;}
+    ds.forEach((d,i)=>reduced?d.classList.add('on'):setTimeout(()=>d.classList.add('on'),400+i*260)); } });
+const triangle = (h, s, labels) => ({ html:`<div class="c">${eye(s)}<h2 class="h2 a1">${h}</h2>
+  <svg class="tri" viewBox="-60 -24 420 310"><line x1="150" y1="40" x2="40" y2="220"/><line x1="40" y1="220" x2="260" y2="220"/><line x1="260" y1="220" x2="150" y2="40"/>
+  <circle cx="150" cy="40" r="30"/><circle cx="40" cy="220" r="30"/><circle cx="260" cy="220" r="30"/>
+  <text x="150" y="46">1</text><text x="40" y="226">2</text><text x="260" y="226">3</text>
+  <text x="150" y="-4" style="font-size:14px">${labels[0]}</text><text x="40" y="276" style="font-size:14px">${labels[1]}</text><text x="260" y="276" style="font-size:14px">${labels[2]}</text>
+  <text class="ctr" x="150" y="168">Profit</text></svg></div>`,
+  onMount(el,{reduced}){ const t=el.querySelector('.tri'); reduced?t.classList.add('go'):setTimeout(()=>t.classList.add('go'),300);} });
+const thermo = { html:`<div class="c">${eye('Step 3 · Buy the machine last')}<h2 class="h2 a1">The order that keeps your cash working.</h2>
+  <div class="thermo a2"><div class="tube"><div class="fill"></div></div>
+  <div class="steps"><span>Find the spot</span><span>Pitch it</span><span>They say yes</span><span>Buy the machine</span><span>It pays itself off</span></div></div>
+  <p class="sub a3">Secure the spot, then buy.</p></div>`,
+  onMount(el,{reduced}){ const f=el.querySelector('.fill'),ss=[...el.querySelectorAll('.steps span')];
+    if(reduced){f.style.width='100%';ss.forEach(s=>s.classList.add('on'));return;}
+    setTimeout(()=>f.style.width='100%',300); ss.forEach((s,i)=>setTimeout(()=>s.classList.add('on'),400+i*700)); } };
+const counter = (end, h, s, suffix='', pre='') => ({ html:`<div class="c">${B}<div class="big a1">${pre}<span class="num">0</span>${suffix}</div><h2 class="h3 a2" style="margin-top:3cqh">${h}</h2>${sub(s)}</div>`,
+  onMount(el,{reduced}){ const n=el.querySelector('.num'); if(reduced){n.textContent=end.toLocaleString('en-US');return;}
+    const t0=performance.now(),d=1300;(function tick(now){const p=Math.min(1,(now-t0)/d),e=1-Math.pow(1-p,3);n.textContent=Math.round(end*e).toLocaleString('en-US');if(p<1)requestAnimationFrame(tick)})(t0);} });
+const quiz = { html:`<div class="c">${B}${eye('Quick quiz before we start')}<h2 class="h2 a1" style="max-width:20ch">True or false: the busiest location is the most profitable one.</h2>
+  <div class="quiz a2"><div class="t">True</div><div class="f">False</div></div>
+  <p class="sub reveal">False. Busy doesn\'t mean profitable. The spots that pay have people stuck on site for hours.</p></div>`,
+  onMount(el,{reduced}){ const go=()=>{el.querySelector('.f').classList.add('on');el.querySelector('.t').classList.add('off');el.querySelector('.reveal').classList.add('in')}; reduced?go():setTimeout(go,1600);} };
+const shots = (e, h, imgs) => ({ html:`<div class="c">${eye(e)}<h2 class="h3 a1">${h}</h2><div class="shots a2">${imgs.map(i=>`<img src="${I('../proof/'+i)}" alt="">`).join('')}</div></div>` });
+const table = (h, rows, o={}) => ({ html:`<div class="c">${eye(o.eye)}<h2 class="h2 a1">${h}</h2><div class="stack a2">
+  ${rows.map(r=>`<div class="row ${r[2]?'bn':''}"><span>${r[0]}</span><em>${r[1]}</em></div>`).join('')}</div>${sub(o.s)}</div>` });
+const review = (q, who) => ({ html:`<div class="c creambg" style="position:absolute;inset:0">${B}<div class="stars a1">&#9733;&#9733;&#9733;&#9733;&#9733;</div><h2 class="h3 a2" style="max-width:30ch;font-weight:600;line-height:1.3">&ldquo;${q}&rdquo;</h2><p class="sub a3" style="font-weight:600;color:var(--red)">${who}</p></div>` });
+
+const PILLARS = [['Find a captive location','Where people are stuck on site for hours'],['Pitch it without paying commission','Start with people who already know you'],['Buy the machine last','And let the location pay for it']];
+const PX = n => `../proof/${n}.jpg`;
+
+DECK.load([
+/* ===== 1 HOOK ===== */
+full('cooler-smile', 'The <span class="r">Proven</span> 3-Step Plan 9-5ers Use To Land Their First Profitable Vending Location', 'Even if you\'re starting with $0 and nervous to pitch.', {eye:'Free live class · Briana Gray', size:'h3', pos:'50% 20%'}),
+text('Put your phone on Do Not Disturb.', 'This hour is just for you.'),
+quiz,
+full('cards', 'Grab a pen and paper.', 'You\'ll want to write down a lot of tonight.', {rt:true, pos:'50% 30%'}),
+split('cap-pepsi', 'Hi, I\'m Briana.', 'I\'m a nurse three days a week. The other days, I run 9 vending machines.', {eye:'Your host tonight', pos:'50% 20%'}),
+yes('Where are you joining from tonight?', 'Your city, your state', {bg:'creambg'}),
+text('Tonight is for anyone with a 9-5 who wants a business of their <span class="r">own</span>.', 'Without quitting the job you already have.'),
+
+/* ===== 2 PAIN ===== */
+cards('Stop me if any of these sound familiar.', [['You\'ve watched months of videos','And still haven\'t placed a machine'],['Every busy spot looks taken','So you don\'t know where to start'],['You\'re nervous to pitch','A manager you\'ve never met'],['You\'re scared to buy a machine','And have it sit in your garage']], 4, {eye:'This is for you if'}),
+full('garage', 'You keep researching.', 'And you keep waiting until you feel ready.', {pos:'50% 30%'}),
+split(PX('p-nurse'), 'You come home from a long shift.', 'And the business you wanted to start is still a list of saved videos.', {rev:true, pos:'50% 30%'}),
+meter('Most beginners get stuck on the left.', 'Months of research, no machine placed.', 18, 'You are here'),
+split('shelves', 'You don\'t have a vending problem.', 'You have a research problem. At some point you have to stop researching and start applying.', {rev:true, size:'h2', pos:'50% 30%'}),
+yes('Type YES if one of these sounds like you.'),
+
+/* ===== 3 TEASE ===== */
+nodes('Tonight I\'ll walk you through the 3 steps.', PILLARS, {eye:'What you\'ll learn'}),
+killers(false),
+framed('gift-list.jpg', 'You got a free gift when you signed up.', 'My list of 10 $1K/month vending locations. It\'s waiting for you in the WhatsApp group.', {eye:'Free gift'}),
+
+/* ===== 4 EXCITE ===== */
+full(PX('p-dashboard'), 'Imagine getting a text that ends with $261.86 hitting your account.', 'From a machine you restocked on your day off.', {rt:true, size:'h3', pos:'50% 30%'}),
+full('sun365', 'Imagine paying your loans off faster.', 'With income that isn\'t just a paycheck.', {pos:'50% 30%'}),
+full(PX('p-delivery'), 'Imagine your next machine arriving because the first one paid for it.', '', {rt:true, size:'h3', pos:'50% 50%'}),
+
+/* ===== 5 MY STORY + PROOF ===== */
+full('autumn', 'So why listen to me?', '', {eye:'My story', pos:'50% 30%'}),
+split(PX('p-nurse'), 'I bought my first machine at 21.', 'I was a broke nursing student with $30k in student loans.', {pos:'50% 30%'}),
+split('garage', 'I had long hours studying, clinical rotations and a part-time job on top.', 'I just wanted something on the side that could help me pay those loans off faster.', {rev:true, size:'h3', pos:'50% 30%'}),
+split('shelves', 'I didn\'t quit my job to do this.', 'I restock on my days off and place machines around my shifts.', {pos:'50% 30%'}),
+counter(9, 'vending machines I run today.', 'At 25, still working as a nurse.'),
+counter(1200, 'a month in sales from one AI machine.', 'It cost me $4,000. Roughly $595 a month of that is profit.', '', '$'),
+counter(937, 'in one month from two Pokemon machines.', 'Pokemon vending is actually a really great business.', '', '$'),
+cluster([PX('p-cooler'),PX('p-pokemon'),PX('p-restock'),PX('p-365')], 'A few of the machines on my route.', 'Snacks, drinks, smart coolers and Pokemon cards.'),
+quote('cap-pepsi', 'I was absolutely terrified to walk into a location and pitch my business.', 'Briana Gray'),
+split('cooler-smile', 'I\'m not special.', 'I learned the order to do things in. And that part can be taught.', {rev:true, pos:'50% 20%'}),
+review('Briana is awesome, she really has a handle on the vending business. Everything and every step is covered, from getting started to placing your first vending machine.', 'Joe Velardez'),
+
+/* ===== 6 PARADIGM ===== */
+divider('Before we start', 'The <span style="color:#ff9104">biggest</span> mistake new vending owners make'),
+compare('There are two ways to start vending.', 'Machine first', ['Buy a machine because it looks good','Hope a location says yes','Pay commission to get in'], 'Location first', ['Find a captive spot','Pitch someone who knows you','Buy the machine once the spot is yours']),
+killers(true),
+split(PX('p-delivery'), 'A machine with no location is a machine sitting in your garage.', 'Secure the spot, then buy.', {size:'h3', pos:'50% 50%'}),
+full('garage', 'And it\'s not your fault.', 'Most videos start with the machine. Almost nobody starts with the room.', {rt:true, pos:'50% 30%'}),
+myth('A busy location is a profitable location.', 'Busy isn\'t profitable. Captive is.'),
+triangle('Profit isn\'t luck.', 'It\'s three steps done in order', ['Location','Pitch','Machine']),
+
+/* ===== 7 STEP 1 ===== */
+divider('Step 1 of 3', 'Find a captive location', 'Where people are stuck on site for hours.'),
+myth('Put your machine where lots of people walk past.', 'Put it where people are stuck for hours with no food nearby.'),
+cards('Places I\'d never put a vending machine.', [['Small offices',''],['Tire shops',''],['Barbershops',''],['Small medical offices',''],['Small churches','']], 5, {eye:'Step 1 · Location'}),
+text('All five of these look busy.', 'None of them keep people there long enough to buy.', {bg:'creambg', size:'h2'}),
+cards('10 $1K/month vending locations.', [['Large warehouses',''],['Manufacturing plants',''],['Busy dealerships',''],['24/7 gyms',''],['Co-working spaces',''],['Office buildings',''],['Corporate campuses',''],['Apartment complexes',''],['Student housing',''],['Care facilities','']], 5, {eye:'Step 1 · Location'}),
+full(PX('p-cooler'), 'People pay for convenience.', 'When the store is a drive away and they\'re on site for hours, they buy from your machine.', {pos:'50% 30%'}),
+table('My AI machine, one month.', [['Celsius','42 sold · $147'],['Blue Gatorade','21 sold · $52.50'],['Fairlife protein shake','11 sold · $49.50'],['Twix, share size','16 sold · $48'],['Reese\'s','19 sold · $47.50']], {eye:'Step 1 · Real numbers', s:'Around $1,200 a month in sales. The room matters more than the machine.'}),
+yes('Type YES if you\'ve been looking for a spot that\'s just busy.'),
+
+/* ===== 7 STEP 2 ===== */
+divider('Step 2 of 3', 'Pitch it without paying commission', 'Start with people who already know you.'),
+myth('You have to pay commission to get a location.', 'You don\'t. Plenty of locations say yes with no commission at all.'),
+full('cap-pepsi', 'The easiest locations are the ones where someone already knows you.', 'Your gym, your work, a business you already go to.', {rt:true, size:'h3', pos:'50% 20%'}),
+nodes('Who to ask first.', [['People who know you','Your easy close'],['Businesses you already use','A relationship you already have'],['Their referrals','Once you do a good job']], {eye:'Step 2 · Pitch'}),
+compare('Same location. Two different pitches.', 'Cold', ['A stranger walking in','Offering commission to get a yes','Hoping the manager is in a good mood'], 'Warm', ['Someone they already know','A machine that serves their people','No commission needed']),
+split('cooler-smile', 'The good spots aren\'t taken.', 'They\'re un-asked.', {rev:true, pos:'50% 20%'}),
+split(PX('p-365'), 'It\'s normal to feel nervous.', 'I still do, before big meetings. Feeling nervous just means it matters to you.', {pos:'50% 30%'}),
+yes('Type YES if you\'ve been too nervous to pitch.'),
+
+/* ===== 7 STEP 3 ===== */
+divider('Step 3 of 3', 'Buy the machine last', 'And let the location pay for it.'),
+myth('You need thousands in the bank before you can start.', 'Most machines can be financed, sometimes with very little down.'),
+full(PX('p-delivery'), 'Never buy a machine without having a location.', 'Then you\'re not sitting on equipment hoping something works out.', {rt:true, size:'h3', pos:'50% 50%'}),
+thermo,
+split('cards', 'I bought my $4,000 smart machine on a 0% interest credit card.', 'And let the machine pay itself off from the cash it made.', {size:'h3', pos:'50% 30%'}),
+cards('How the money moves.', [['Start with one machine','Picked for your budget'],['Let it pay itself off','From its own cash flow'],['Reinvest the profit','Into the next machine']], 3, {eye:'Step 3 · Machine'}),
+yes('Type YES if you almost bought a machine before you had a spot.'),
+
+/* ===== 8 COMMITMENT ===== */
+triangle('Location. Pitch. Machine.', 'Here\'s the whole plan on one slide', ['Location','Pitch','Machine']),
+yes('Can you see why months of research never got you a machine?', 'YES', {bg:'creambg'}),
+yes('Can you picture your first machine placed and earning?', 'YES', {bg:'creambg'}),
+full('garage', 'Think about the spot you\'ve been eyeing.', 'Is it busy, or is it captive?', {pos:'50% 30%'}),
+review('Briana is an exceptional resource for anyone interested in entering the vending industry. She is knowledgeable, supportive, and genuinely invested in her clients\' success.', 'Sean Rankin, Two Llamas Vending'),
+
+/* ===== 9 TRANSITION ===== */
+split('autumn', 'Now you know what to do.', 'The hard part is doing it alone, with no scripts and nobody keeping you moving.', {pos:'50% 30%'}),
+nodes('From here you\'ve got three paths.', [['Do nothing','Another year of saved videos'],['Figure it out alone','More guessing, more nerves'],['Do it with me','Every step and script, in order']], {eye:'Your choice'}),
+full('sun365', 'Time is going to pass whether you start or not.', 'That\'s what waiting costs.', {rt:true, size:'h3', pos:'50% 30%'}),
+yes('Can I show you how I can help?'),
+
+/* ===== 10 OFFER ===== */
+divider('Introducing', 'Grays Vending Academy', 'The 90-Day Accelerator.'),
+text('Find and land your first (or next) $1k to $3k a month vending location in 90 days.', 'No prior experience or big upfront cost required.', {size:'h2'}),
+nodes('Three steps. Laid out for you.', [['Location','How to find the good spots','1'],['Pitch','The exact scripts, practised','2'],['Machine','The right one for your budget','3']], {eye:'How it works'}),
+cards('What\'s inside.', [['A step-by-step program','From stuck to your first profitable machine, in 12 weeks'],['Finding locations','The good spots aren\'t taken, they\'re un-asked'],['The exact scripts','And practice until pitching isn\'t scary']], 3, {eye:'The 90-Day Accelerator'}),
+cards('And everything around it.', [['Picking the right machine','For your budget'],['Location first, then reinvest','Profit goes into the next machine'],['Tools and resources','To get your business off the ground']], 3, {eye:'The 90-Day Accelerator'}),
+split('cap-pepsi', 'My promise to you.', 'Follow the steps and do the outreach. If you haven\'t placed your first profitable machine in 90 days, we keep working with you until you do.', {eye:'Included', rev:true, pos:'50% 20%'}),
+table('Everything you get.', [['The 90-Day Accelerator','12 weeks, step by step'],['Location finding','Included'],['Pitch scripts and practice','Included'],['Machine and budget help','Included',1],['Tools and resources','Included',1],['My 90-day promise','Included',1]], {eye:'Grays Vending Academy'}),
+text('You don\'t need a business degree.', 'Just a simple path and someone keeping you moving.', {bg:'redbg', size:'h2'}),
+
+/* ===== 11 CTA ===== */
+{ html:`<div class="c redbg">${B.replace('class="brand"','class="brand" style="color:#fff"')}<div class="eye a1">Your next step</div><h1 class="h1 a2" style="max-width:18ch">See if you qualify</h1>
+  <p class="sub a3">Answer three quick questions and book a free call with me.</p><div class="btn a4" style="background:#ff9104;color:#1d1d1f">See if you qualify</div></div>` },
+cards('What happens next.', [['You answer 3 questions','It takes a minute'],['You book a call with me','We look at your area and budget'],['We map your first location','And whether the Accelerator fits']], 3, {eye:'Tonight'}),
+faq('I\'ve never run a business, and I work full time. Can I actually do this?'),
+faq('How much money do I need to start?'),
+faq('What if I\'m nervous to pitch?'),
+faq('What if I invest and it doesn\'t work for me?'),
+faq('So much conflicting advice online. Why trust this?'),
+full('cooler-smile', 'Busy isn\'t profitable. <span class="r">Captive is.</span>', 'Book your call tonight.', {rt:true, size:'h3', pos:'50% 20%'}),
+{ html:`<div class="c">${B}<div class="eye a1">Thanks for staying</div><h2 class="h2 a2">Don\'t forget your free gift.</h2>
+  <div class="a3" style="margin-top:5cqh;display:flex;gap:4cqw;align-items:center"><img class="cover" style="height:46cqh" src="${I('gift-list.jpg')}" alt=""><div style="text-align:left"><p class="sub" style="margin:0">My 10 $1K/month vending locations list is waiting in the WhatsApp group.</p><div class="btn">See if you qualify</div></div></div></div>` }
+]);
+</script>
+</body>
+</html>
